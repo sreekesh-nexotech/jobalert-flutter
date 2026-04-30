@@ -27,16 +27,20 @@ lib/
 ## Getting started
 
 ```bash
-cp .env.example .env       # set API_BASE_URL
 flutter pub get
 flutter run
 ```
 
-The default `API_BASE_URL` (`http://10.0.2.2:8000/api/v1`) targets a
-locally-running [`jobalert-api-drf`](../jobalert-api-drf) on the Android
-emulator. For iOS or web, swap `10.0.2.2` for `localhost`.
+The app ships pointing at the deployed backend at
+`https://jobalertapp.nexogms.com/api/v1`. To target a different
+environment (e.g. a local Django server) override it at build time:
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000/api/v1
+```
 
 ## Backend
 
 All data and auth flows talk to the `jobalert-api-drf` Django REST
-backend. Endpoints live under `/api/v1/`; see `lib/core/network/api_endpoints.dart`.
+backend deployed at `https://jobalertapp.nexogms.com`. Endpoints live
+under `/api/v1/`; see `lib/core/network/api_endpoints.dart`.
