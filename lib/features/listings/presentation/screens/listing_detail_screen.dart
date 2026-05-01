@@ -172,7 +172,7 @@ class _DetailState extends ConsumerState<_Detail> {
                                 (t) => Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: AppColors.ink100,
+                                    color: const Color(0xFFF5F5F5),
                                     borderRadius: BorderRadius.circular(999),
                                   ),
                                   child: Text(
@@ -206,7 +206,7 @@ class _DetailState extends ConsumerState<_Detail> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                 decoration: BoxDecoration(
-                                  color: AppColors.ink100,
+                                  color: const Color(0xFFF5F5F5),
                                   borderRadius: BorderRadius.circular(999),
                                 ),
                                 child: Text(
@@ -427,8 +427,8 @@ class _MetaRow extends StatelessWidget {
   }
 
   Widget _pill(IconData? icon, String text, {bool peach = false, bool sage = false}) {
-    final bg = peach ? AppColors.peachBg : sage ? AppColors.sageBg : AppColors.ink100;
-    final fg = peach ? AppColors.brand : sage ? AppColors.sage : AppColors.ink700;
+    final bg = peach ? AppColors.peachBg : sage ? AppColors.sageBg : const Color(0xFFF7F7F7);
+    final fg = peach ? AppColors.brand : sage ? AppColors.sage : const Color(0xFF555555);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
@@ -504,7 +504,7 @@ class _BottomActions extends StatelessWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: Text(
-                  isJob ? 'Apply Now' : 'Enquire Now',
+                  isJob ? 'Mark as Applied' : 'Mark as Enquired',
                   style: AppText.body.copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

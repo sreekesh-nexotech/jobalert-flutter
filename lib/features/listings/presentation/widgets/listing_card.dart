@@ -244,7 +244,7 @@ class _ListingCardState extends State<ListingCard>
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
-                      color: AppColors.ink100,
+                      color: const Color(0xFFF5F5F5),
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
@@ -359,8 +359,8 @@ class _MetaPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = highlight ? AppColors.peachBg : sage ? AppColors.sageBg : AppColors.ink100;
-    final fg = highlight ? AppColors.brand : sage ? AppColors.sage : AppColors.ink700;
+    final bg = highlight ? AppColors.peachBg : sage ? AppColors.sageBg : const Color(0xFFF7F7F7);
+    final fg = highlight ? AppColors.brand : sage ? AppColors.sage : const Color(0xFF555555);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
@@ -390,7 +390,7 @@ class _TagPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: AppColors.ink100,
+        color: const Color(0xFFF5F5F5),
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(

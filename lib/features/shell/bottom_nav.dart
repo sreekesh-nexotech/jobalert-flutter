@@ -48,11 +48,11 @@ class AppBottomNav extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  _NavItem(icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home', active: activeIndex == 0, onTap: () => onTap(0)),
-                  _NavItem(icon: Icons.work_outline, activeIcon: Icons.work, label: 'Jobs', active: activeIndex == 1, onTap: () => onTap(1)),
+                  _NavItem(icon: Icons.home_outlined, label: 'Home', active: activeIndex == 0, onTap: () => onTap(0)),
+                  _NavItem(icon: Icons.work_outline, label: 'Jobs', active: activeIndex == 1, onTap: () => onTap(1)),
                   _PlusButton(onTap: onPlus),
-                  _NavItem(icon: Icons.bar_chart_outlined, activeIcon: Icons.bar_chart, label: 'Biz', active: activeIndex == 2, onTap: () => onTap(2)),
-                  _NavItem(icon: Icons.person_outline, activeIcon: Icons.person, label: 'Profile', active: activeIndex == 3, onTap: () => onTap(3)),
+                  _NavItem(icon: Icons.bar_chart_outlined, label: 'Biz', active: activeIndex == 2, onTap: () => onTap(2)),
+                  _NavItem(icon: Icons.person_outline, label: 'Profile', active: activeIndex == 3, onTap: () => onTap(3)),
                 ],
               ),
             ),
@@ -66,13 +66,11 @@ class AppBottomNav extends StatelessWidget {
 class _NavItem extends StatelessWidget {
   const _NavItem({
     required this.icon,
-    required this.activeIcon,
     required this.label,
     required this.active,
     required this.onTap,
   });
   final IconData icon;
-  final IconData activeIcon;
   final String label;
   final bool active;
   final VoidCallback onTap;
@@ -87,7 +85,7 @@ class _NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(active ? activeIcon : icon, size: 20, color: color),
+            Icon(icon, size: 20, color: color),
             const SizedBox(height: 2),
             Text(
               label,
