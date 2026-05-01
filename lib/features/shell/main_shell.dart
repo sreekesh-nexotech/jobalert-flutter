@@ -51,6 +51,12 @@ class _MainShellState extends ConsumerState<MainShell> {
     );
   }
 
+  /// Phone-form-factor cap. The design is mobile-only — on tablets and
+  /// foldables we constrain the shell to a phone-shaped column instead of
+  /// stretching the layout horizontally, which would otherwise distort
+  /// every floating card and pill in the design.
+  static const double _maxShellWidth = 520;
+
   @override
   Widget build(BuildContext context) {
     final tabs = <Widget>[
@@ -60,24 +66,32 @@ class _MainShellState extends ConsumerState<MainShell> {
       const ProfileScreen(),
     ];
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFDDE0E4),
       body: SafeArea(
         bottom: false,
-        child: Stack(
-          children: [
-            IndexedStack(index: _tab, children: tabs),
-            Positioned(
-              left: 10,
-              right: 10,
-              bottom: 8 + MediaQuery.of(context).padding.bottom,
-              child: AppBottomNav(
-                activeIndex: _tab,
-                hidden: _navHidden && _tab != 0,
-                onTap: _setTab,
-                onPlus: _openPlusSheet,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: _maxShellWidth),
+            child: Container(
+              color: Colors.white,
+              child: Stack(
+                children: [
+                  IndexedStack(index: _tab, children: tabs),
+                  Positioned(
+                    left: 10,
+                    right: 10,
+                    bottom: 8 + MediaQuery.of(context).padding.bottom,
+                    child: AppBottomNav(
+                      activeIndex: _tab,
+                      hidden: _navHidden && _tab != 0,
+                      onTap: _setTab,
+                      onPlus: _openPlusSheet,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

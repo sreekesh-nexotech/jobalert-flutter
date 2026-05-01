@@ -213,94 +213,114 @@ class _NewListingsBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(22, 20, 22, 18),
-        decoration: BoxDecoration(
-          color: AppColors.peachBg,
+    return Material(
+      color: AppColors.peachBg,
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: ClipRRect(
+          // Clip the decorative circles back inside the rounded card.
           borderRadius: BorderRadius.circular(20),
-        ),
-        child: Stack(
-          clipBehavior: Clip.hardEdge,
-          children: [
-            Positioned(
-              right: -16,
-              top: -16,
-              child: Container(
-                width: 88,
-                height: 88,
-                decoration: const BoxDecoration(
-                  color: Color(0x21C8783A),
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 22,
-              bottom: -28,
-              child: Container(
-                width: 64,
-                height: 64,
-                decoration: const BoxDecoration(
-                  color: Color(0x14C8783A),
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child: SizedBox(
+            // Force the card to take the parent's full available width
+            // regardless of how narrow the inner Column actually renders.
+            width: double.infinity,
+            child: Stack(
+              clipBehavior: Clip.hardEdge,
               children: [
-                Text(
-                  '🔥 NEW LISTINGS',
-                  style: AppText.captionMuted.copyWith(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.brand,
-                    letterSpacing: 0.08 * 10,
-                  ),
+                Positioned(
+                  right: -16,
+                  top: -16,
+                  child: _DecorCircle(size: 88, color: const Color(0x21C8783A)),
                 ),
-                const SizedBox(height: 7),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 195),
-                  child: Text(
-                    'Check out $count new job postings you might be eligible for',
-                    style: AppText.body.copyWith(
-                      fontSize: 15,
-                      color: AppColors.ink900,
-                      fontWeight: FontWeight.w600,
-                      height: 1.35,
-                      letterSpacing: -0.02 * 15,
-                    ),
-                  ),
+                Positioned(
+                  right: 22,
+                  bottom: -28,
+                  child: _DecorCircle(size: 64, color: const Color(0x14C8783A)),
                 ),
-                const SizedBox(height: 13),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppColors.brand,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'View all',
-                        style: AppText.captionMuted.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(22, 20, 22, 18),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 110),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '🔥 NEW LISTINGS',
+                          style: AppText.captionMuted.copyWith(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.brand,
+                            letterSpacing: 0.08 * 10,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 6),
-                      const Icon(Icons.arrow_forward, size: 11, color: Colors.white),
-                    ],
+                        const SizedBox(height: 7),
+                        // Reserve space on the right for the decorative
+                        // orange circle, but let the headline wrap with the
+                        // remaining width — works on phones from 320px up.
+                        Padding(
+                          padding: const EdgeInsets.only(right: 80),
+                          child: Text(
+                            'Check out $count new job postings you might be eligible for',
+                            style: AppText.body.copyWith(
+                              fontSize: 15,
+                              color: AppColors.ink900,
+                              fontWeight: FontWeight.w600,
+                              height: 1.35,
+                              letterSpacing: -0.02 * 15,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 13),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.brand,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'View all',
+                                style: AppText.captionMuted.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              const Icon(Icons.arrow_forward, size: 11, color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-          ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class _DecorCircle extends StatelessWidget {
+  const _DecorCircle({required this.size, required this.color});
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return IgnorePointer(
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
     );
   }
@@ -328,32 +348,65 @@ class _QuickCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(14, 15, 14, 15),
-        constraints: const BoxConstraints(minHeight: 90),
-        decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(18)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(9)),
-              child: Icon(icon, size: 17, color: iconColor),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: AppText.cardTitle.copyWith(
-                fontSize: 13,
-                color: labelColor ?? AppColors.ink900,
+    final chevronColor = labelColor ?? const Color(0xFFCCCCCC);
+    return Material(
+      color: bg,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 90),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 15, 14, 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: iconBg,
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      child: Icon(icon, size: 17, color: iconColor),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      label,
+                      style: AppText.cardTitle.copyWith(
+                        fontSize: 13,
+                        color: labelColor ?? AppColors.ink900,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      sub,
+                      style: AppText.captionMuted.copyWith(
+                        fontSize: 11,
+                        color: AppColors.ink500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 2),
-            Text(sub, style: AppText.captionMuted.copyWith(fontSize: 11, color: AppColors.ink500)),
-          ],
+              Positioned(
+                bottom: 8,
+                right: 12,
+                child: Text(
+                  '›',
+                  style: TextStyle(
+                    fontSize: 18,
+                    height: 1.0,
+                    color: chevronColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -591,38 +644,46 @@ class _GlowBlobs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: Listenable.merge([glow1, glow2, glow3]),
-      builder: (context, _) {
-        final w = MediaQuery.of(context).size.width;
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            _blob(
-              left: w * 0.15 - 90,
-              top: 20 + 12 * math.sin(glow1.value * 2 * math.pi),
-              size: 180,
-              opacity: 0.55 + 0.35 * (math.sin(glow1.value * 2 * math.pi) + 1) / 2,
-              color: const Color(0xFFC8783A),
-              alpha: 0.09,
-            ),
-            _blob(
-              right: w * 0.05 - 70,
-              top: 60 + 14 * math.sin(glow2.value * 2 * math.pi + 1.5),
-              size: 140,
-              opacity: 0.5 + 0.35 * (math.sin(glow2.value * 2 * math.pi) + 1) / 2,
-              color: const Color(0xFF8FA67B),
-              alpha: 0.08,
-            ),
-            _blob(
-              left: w * 0.40 - 60,
-              top: 120 + 10 * math.sin(glow3.value * 2 * math.pi + 0.8),
-              size: 120,
-              opacity: 0.4 + 0.3 * (math.sin(glow3.value * 2 * math.pi) + 1) / 2,
-              color: const Color(0xFFC8783A),
-              alpha: 0.055,
-            ),
-          ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Use the actual layout-allowed width instead of MediaQuery so the
+        // blobs sit correctly inside the phone-shaped shell on tablets.
+        final w = constraints.maxWidth.isFinite
+            ? constraints.maxWidth
+            : MediaQuery.of(context).size.width;
+        return AnimatedBuilder(
+          animation: Listenable.merge([glow1, glow2, glow3]),
+          builder: (context, _) {
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                _blob(
+                  left: w * 0.15 - 90,
+                  top: 20 + 12 * math.sin(glow1.value * 2 * math.pi),
+                  size: 180,
+                  opacity: 0.55 + 0.35 * (math.sin(glow1.value * 2 * math.pi) + 1) / 2,
+                  color: const Color(0xFFC8783A),
+                  alpha: 0.09,
+                ),
+                _blob(
+                  right: w * 0.05 - 70,
+                  top: 60 + 14 * math.sin(glow2.value * 2 * math.pi + 1.5),
+                  size: 140,
+                  opacity: 0.5 + 0.35 * (math.sin(glow2.value * 2 * math.pi) + 1) / 2,
+                  color: const Color(0xFF8FA67B),
+                  alpha: 0.08,
+                ),
+                _blob(
+                  left: w * 0.40 - 60,
+                  top: 120 + 10 * math.sin(glow3.value * 2 * math.pi + 0.8),
+                  size: 120,
+                  opacity: 0.4 + 0.3 * (math.sin(glow3.value * 2 * math.pi) + 1) / 2,
+                  color: const Color(0xFFC8783A),
+                  alpha: 0.055,
+                ),
+              ],
+            );
+          },
         );
       },
     );

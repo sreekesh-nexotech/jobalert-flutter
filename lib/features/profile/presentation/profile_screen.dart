@@ -339,54 +339,91 @@ class _PreferencesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: AppColors.ink100),
-        borderRadius: BorderRadius.circular(16),
+    return SizedBox(
+      width: double.infinity,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: const Color(0xFFF0F0F0)),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Job preferences',
+              style: AppText.body.copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppColors.ink900,
+                height: 1.15,
+                letterSpacing: 0,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 7,
+              runSpacing: 7,
+              children: _categories
+                  .map((c) => _PrefChip(
+                        label: c,
+                        selected: prefs.contains(c),
+                        onTap: () => onToggle(c),
+                      ))
+                  .toList(),
+            ),
+          ],
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Job preferences',
-            style: AppText.body.copyWith(fontSize: 13, fontWeight: FontWeight.w600),
+    );
+  }
+}
+
+class _PrefChip extends StatelessWidget {
+  const _PrefChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(999),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          curve: Curves.easeOut,
+          height: 30,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: selected ? AppColors.ink900 : Colors.white,
+            border: Border.all(
+              color: selected ? AppColors.ink900 : const Color(0xFFEEEEEE),
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(999),
           ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 7,
-            runSpacing: 7,
-            children: _categories.map((c) {
-              final selected = prefs.contains(c);
-              return GestureDetector(
-                onTap: () => onToggle(c),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
-                  height: 30,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: selected ? AppColors.ink900 : Colors.white,
-                    border: Border.all(
-                      color: selected ? AppColors.ink900 : const Color(0xFFEEEEEE),
-                      width: 1.5,
-                    ),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    c,
-                    style: AppText.captionMuted.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: selected ? Colors.white : const Color(0xFF666666),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontFamily: AppText.body.fontFamily,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              height: 1.0,
+              color: selected ? Colors.white : const Color(0xFF666666),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
