@@ -11,7 +11,7 @@ class AppText {
 
   static TextStyle _base(
     double size, {
-    FontWeight weight = FontWeight.w420,
+    FontWeight weight = FontWeight.w400,
     Color color = AppColors.ink900,
     double height = 1.15,
     double letterSpacing = 0.01 * 14,
